@@ -1,0 +1,32 @@
+resource "aws_security_group" "My_SG"{
+name = "allow-internet_traffic"
+description = "allow-internet_traffic"
+
+ingress
+{
+# allowing http
+from_port = 80
+to_port = 80
+protocol = "tcp"
+cidr_blocks = 0.0.0.0/0
+}
+
+}
+
+resource "aws_instance" "My_instance"{
+ami = "ami-0dacb0c129b49f529"
+instance_type = "t2.micro"
+tags = {
+      Name = "Ec2standardTF"
+}
+security_groups = [[${My_SG}"]
+key_name = "keypairanu"
+user_data = <<-EOF
+                #!/bin/bash
+                yum update -y
+                yum install -y httpd
+                systemctl start httpd.service
+                systemctl enable httpd.service
+                echo "Hi Friend , I am $(hostname -f) hosted by Terraform" > /var/www/html/index.html
+                EOF
+}
