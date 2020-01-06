@@ -1,0 +1,2 @@
+# link to download for fly cicd 
+sudo wget https://github.com/concourse/concourse/releases/download/v3.10.0/fly_linux_amd64 -O /usr/bin/fly
